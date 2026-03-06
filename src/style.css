@@ -1,78 +1,269 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+html,body,#app{
+height:100%;
+width:100%;
 }
 
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
+body{
+font-family:Arial;
+background:#f4f6f9;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+
+/* LAYOUT */
+
+.layout{
+display:flex;
+min-height:100vh;
+width:100vw;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+
+/* SIDEBAR */
+
+.sidebar{
+width:250px;
+background:linear-gradient(#ff8c00,#e65100);
+color:white;
+height:100vh;
+padding:25px;
+position:fixed;
+left:0;
+top:0;
 }
 
-.card {
-  padding: 2em;
+.logo{
+font-size:26px;
+font-weight:bold;
+margin-bottom:30px;
 }
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.menu button{
+display:block;
+width:100%;
+margin-bottom:12px;
+padding:12px;
+border:none;
+background:rgba(255,255,255,0.2);
+color:white;
+border-radius:6px;
+cursor:pointer;
+font-size:15px;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.menu button:hover{
+background:rgba(255,255,255,0.35);
 }
 
+
+/* MAIN CONTENT */
+
+.main{
+flex:1;
+margin-left:250px;
+padding:40px;
+width:calc(100vw - 250px);
+}
+
+
+/* HEADER */
+
+.header{
+margin-bottom:25px;
+}
+
+.header h2{
+font-size:28px;
+}
+
+
+/* DASHBOARD */
+
+.dashboard{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:25px;
+margin-bottom:25px;
+}
+
+
+/* CARD */
+
+.card{
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 3px 12px rgba(0,0,0,0.08);
+}
+
+
+/* SUMMARY */
+
+.summary{
+display:flex;
+justify-content:space-around;
+margin-top:20px;
+}
+
+.circle{
+width:90px;
+height:90px;
+border-radius:50%;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+font-size:18px;
+}
+
+.circle span{
+font-size:12px;
+}
+
+.green{background:#d4edda;color:#2e7d32}
+.orange{background:#fff3cd;color:#f57c00}
+.gray{background:#e2e3e5;color:#555}
+.red{background:#f8d7da;color:#c62828}
+
+
+/* CONTROLS */
+
+.controls{
+margin-bottom:15px;
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+align-items:center;
+}
+
+.controls select,
+.controls input{
+padding:6px 8px;
+}
+
+
+/* TABLE */
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+background:white;
+}
+
+th{
+padding:12px;
+border-bottom:2px solid #eee;
+text-align:left;
+background:#fafafa;
+}
+
+td{
+padding:12px;
+border-bottom:1px solid #eee;
+}
+
+
+/* STATUS */
+
+.present{
+color:#2e7d32;
+font-weight:bold;
+}
+
+.absent{
+color:#c62828;
+font-weight:bold;
+}
+
+
+/* BUTTON */
+
+button{
+margin:4px;
+padding:8px 14px;
+border:none;
+background:#ff7a00;
+color:white;
+border-radius:6px;
+cursor:pointer;
+}
+
+button:hover{
+background:#ff9100;
+}
+
+
+/* EXPORT */
+
+.export{
+margin-top:10px;
+}
+
+
+/* MODAL */
+
+.overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.modal{
+background:white;
+padding:30px;
+border-radius:10px;
+min-width:300px;
+text-align:center;
+}
+.teacher-card{
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+
+.teacher-img{
+  width:180px;
+  height:180px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.teacher-info{
+  font-size:18px;
+}
+.qr-container{
+display:flex;
+justify-content:center;
+align-items:center;
+margin-top:40px;
+}
+
+.qr-container canvas{
+width:350px !important;
+height:350px !important;
+}
+.qr-big{
+display:flex;
+justify-content:center;
+align-items:center;
+margin-top:40px;
+width:100%;
+}
+
+.qr-big canvas{
+width:500px !important;
+height:500px !important;
+}
