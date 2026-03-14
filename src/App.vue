@@ -177,6 +177,13 @@ No Data
 
 
 <div v-if="students.length" class="export">
+<button @click="exportSummaryExcel">
+Export Summary (Full Term)
+</button>
+
+<button @click="exportSummaryPDF">
+Export Summary (Full Term PDF)
+</button>
 
 <button @click="exportExcel">
 Export Excel
@@ -211,7 +218,7 @@ Export PDF
 </thead>
 
 <tbody>
-<tr v-for="(s,index) in students" :key="s.id">
+<tr v-for="(s,index) in studentList" :key="s.id">
 <td>{{ index+1 }}</td>
 <td>{{ s.id }}</td>
 <td>{{ s.name }}</td>
@@ -345,7 +352,6 @@ Checkin
 },
 
 data(){
-
 return{
 
 page:"check",
@@ -359,81 +365,95 @@ startMinute:"00",
 endHour:"09",
 endMinute:"00",
 
-students:[
-{ id:"673380363-8", name:"นายกฤษณพงษ์ วีระชาติ", sec:"A6702" },
-{ id:"673380364-6", name:"นายกันตภูมิ เดาขุนทด", sec:"A6702" },
-{ id:"673380365-4", name:"นายกิจภานัทธ์ นามโยธา", sec:"A6702" },
-{ id:"673380366-2", name:"นายคงกระพัน ลือชา", sec:"A6702" },
-{ id:"673380367-0", name:"นายจีราวัฒน์ วงษ์คำจันทร์", sec:"A6702" },
-{ id:"673380368-8", name:"นายชนพงศ์ ขันทะเนตร์", sec:"A6702" },
-{ id:"673380369-6", name:"นายณัฐนนท์ เนาวรัตน์", sec:"A6702" },
-{ id:"673380370-1", name:"นายณัฐพงศ์ พระสว่าง", sec:"A6702" },
-{ id:"673380371-9", name:"นางสาวธนัชญา ชายพระอินทร์", sec:"A6702" },
-{ id:"673380372-7", name:"นายปรเมษฐ์ ร่องบุตรศรี", sec:"A6702" },
-{ id:"673380373-5", name:"นางสาวปาณิศา ตะโม", sec:"A6702" },
-{ id:"673380374-3", name:"นางสาวปาริชาติ ชะนะมูล", sec:"A6702" },
-{ id:"673380375-1", name:"นายปารุสก์ เหรียญทอง", sec:"A6702" },
-{ id:"673380376-9", name:"นายพงศ์ตะวัน โสสีทา", sec:"A6702" },
-{ id:"673380377-7", name:"นายพชร ข่าขันมะลี", sec:"A6702" },
-{ id:"673380378-5", name:"นายพชร ทับมั่นนวพร", sec:"A6702" },
-{ id:"673380379-3", name:"นางสาวพรกนก เครือเทียน", sec:"A6702" },
-{ id:"673380380-8", name:"นายพีรพัฒ บุญอาจ", sec:"A6702" },
-{ id:"673380381-6", name:"นายวีรภัทร ภูกองไชย", sec:"A6702" },
-{ id:"673380382-4", name:"นายศุภวิชญ์ ภาควุฒิ", sec:"A6702" },
-{ id:"673380383-2", name:"นายสหพล พรหมศร", sec:"A6702" },
-{ id:"673380384-0", name:"นายสิริภัทร พิมทอง", sec:"A6702" },
-{ id:"673380385-8", name:"นายสุกฤษ อารีป้อม", sec:"A6702" },
-{ id:"673380386-6", name:"นายอชิระ ศรีหรั่งไพโรจน์", sec:"A6702" },
-{ id:"673380387-4", name:"นางสาวอาฐิรตา รัตนกุล", sec:"A6702" },
+studentList:[
+{ id:"6733803638", name:"นายกฤษณพงษ์ วีระชาติ", sec:"A6702" },
+{ id:"6733803646", name:"นายกันตภูมิ เดาขุนทด", sec:"A6702" },
+{ id:"6733803654", name:"นายกิจภานัทธ์ นามโยธา", sec:"A6702" },
+{ id:"6733803662", name:"นายคงกระพัน ลือชา", sec:"A6702" },
+{ id:"6733803670", name:"นายจีราวัฒน์ วงษ์คำจันทร์", sec:"A6702" },
+{ id:"6733803688", name:"นายชนพงศ์ ขันทะเนตร์", sec:"A6702" },
+{ id:"6733803696", name:"นายณัฐนนท์ เนาวรัตน์", sec:"A6702" },
+{ id:"6733803701", name:"นายณัฐพงศ์ พระสว่าง", sec:"A6702" },
+{ id:"6733803719", name:"นางสาวธนัชญา ชายพระอินทร์", sec:"A6702" },
+{ id:"6733803727", name:"นายปรเมษฐ์ ร่องบุตรศรี", sec:"A6702" },
+{ id:"6733803735", name:"นางสาวปาณิศา ตะโม", sec:"A6702" },
+{ id:"6733803743", name:"นางสาวปาริชาติ ชะนะมูล", sec:"A6702" },
+{ id:"6733803751", name:"นายปารุสก์ เหรียญทอง", sec:"A6702" },
+{ id:"6733803769", name:"นายพงศ์ตะวัน โสสีทา", sec:"A6702" },
+{ id:"6733803777", name:"นายพชร ข่าขันมะลี", sec:"A6702" },
+{ id:"6733803785", name:"นายพชร ทับมั่นนวพร", sec:"A6702" },
+{ id:"6733803793", name:"นางสาวพรกนก เครือเทียน", sec:"A6702" },
+{ id:"6733803808", name:"นายพีรพัฒ บุญอาจ", sec:"A6702" },
+{ id:"6733803816", name:"นายวีรภัทร ภูกองไชย", sec:"A6702" },
+{ id:"6733803824", name:"นายศุภวิชญ์ ภาควุฒิ", sec:"A6702" },
+{ id:"6733803832", name:"นายสหพล พรหมศร", sec:"A6702" },
+{ id:"6733803840", name:"นายสิริภัทร พิมทอง", sec:"A6702" },
+{ id:"6733803858", name:"นายสุกฤษ อารีป้อม", sec:"A6702" },
+{ id:"6733803866", name:"นายอชิระ ศรีหรั่งไพโรจน์", sec:"A6702" },
+{ id:"6733803874", name:"นางสาวอาฐิรตา รัตนกุล", sec:"A6702" },
 
-{ id:"673380535-5", name:"นางสาวกชามาส รอบวนานิยม", sec:"A6703" },
-{ id:"673380536-3", name:"นางสาวกัญญาณัฐ รัตนประทุม", sec:"A6703" },
-{ id:"673380537-1", name:"นายจรรยวรรธน์ หัสคุณ", sec:"A6703" },
-{ id:"673380538-9", name:"นายฉันทวัฒน์ ชานนท์", sec:"A6703" },
-{ id:"673380539-7", name:"นายชยานนท์ ธำรงศรีสกุล", sec:"A6703" },
-{ id:"673380540-2", name:"นายชลชยพงษ์ ชวลิตเมธารัตน์", sec:"A6703" },
-{ id:"673380541-0", name:"นายชิษณุพงศ์ จิตมาลย์", sec:"A6703" },
-{ id:"673380542-8", name:"นายดิชพล มณีวรรณ์", sec:"A6703" },
-{ id:"673380543-6", name:"นางสาวทิพย์ธัญญา ทองเงิน", sec:"A6703" },
-{ id:"673380544-4", name:"นายธนภัทร ประสานพันธ์", sec:"A6703" },
-{ id:"673380545-2", name:"นายธนวิชญ์ ธนูสา", sec:"A6703" },
-{ id:"673380546-0", name:"นางสาวธัญญารัตน์ ลงเย", sec:"A6703" },
-{ id:"673380547-8", name:"นายนันทสิทธิ์ ศรีลับแล", sec:"A6703" },
-{ id:"673380548-6", name:"นายปริณ ปริบุญณะ", sec:"A6703" },
-{ id:"673380549-4", name:"นายปองพล หอระตะ", sec:"A6703" },
-{ id:"673380550-9", name:"นายปัณณพัฒน์ อนุชน", sec:"A6703" },
-{ id:"673380551-7", name:"นางสาวปาลีรัตน์ สถิตพลธนานันท์", sec:"A6703" },
-{ id:"673380552-5", name:"นายพร้อมพงศ์ ศรีสวาสดิ์", sec:"A6703" },
-{ id:"673380553-3", name:"นายพลวรรธน์ ลีบุญพงศ์", sec:"A6703" },
-{ id:"673380554-1", name:"นางสาวพลอยไพริน จันทะคุณ", sec:"A6703" },
-{ id:"673380555-9", name:"นางสาวพิมพ์พิศา สุขสโมสร", sec:"A6703" },
-{ id:"673380556-7", name:"นางสาวพิมพ์มาดา เวชวงศ์", sec:"A6703" },
-{ id:"673380557-5", name:"นายพีรพัฒน์ ชาญณรงค์", sec:"A6703" },
-{ id:"673380558-3", name:"นายพูนทณัฐ ไชยจักร", sec:"A6703" },
-{ id:"673380559-1", name:"นายภัทรพล หอมดี", sec:"A6703" },
-{ id:"673380560-6", name:"นายภูมิพัฒน์ วรรณชัย", sec:"A6703" },
-{ id:"673380561-4", name:"นายภูมิรพี เลิศศิวาพร", sec:"A6703" },
-{ id:"673380562-2", name:"นายวัฒนะ สง่าภิญโญ", sec:"A6703" },
-{ id:"673380563-0", name:"นายวิชชากร ศิริมโนพิเชษฐ์", sec:"A6703" },
-{ id:"673380564-8", name:"นางสาววิมาลา สาราช", sec:"A6703" },
-{ id:"673380565-6", name:"นายสกลเกียรติ จันทร์วงษา", sec:"A6703" },
-{ id:"673380566-4", name:"นายสิทธิชัย ไพโรจน์", sec:"A6703" },
-{ id:"673380567-2", name:"นายสุรเชษฐ พลวี", sec:"A6703" },
-{ id:"673380568-0", name:"นางสาวอทิติยา โพธิ์ศรี", sec:"A6703" },
-{ id:"673380569-8", name:"นางสาวเจนจิรา พรมกุล", sec:"A6703" },
-{ id:"673380570-3", name:"นายเสฎฐวุฒิ บุญสถาพร", sec:"A6703" },
-{ id:"673380618-1", name:"นางสาวสริษา เวธิตะ", sec:"A6703" }
+{ id:"6733805355", name:"นางสาวกชามาส รอบวนานิยม", sec:"A6703" },
+{ id:"6733805363", name:"นางสาวกัญญาณัฐ รัตนประทุม", sec:"A6703" },
+{ id:"6733805371", name:"นายจรรยวรรธน์ หัสคุณ", sec:"A6703" },
+{ id:"6733805389", name:"นายฉันทวัฒน์ ชานนท์", sec:"A6703" },
+{ id:"6733805397", name:"นายชยานนท์ ธำรงศรีสกุล", sec:"A6703" },
+{ id:"6733805402", name:"นายชลชยพงษ์ ชวลิตเมธารัตน์", sec:"A6703" },
+{ id:"6733805410", name:"นายชิษณุพงศ์ จิตมาลย์", sec:"A6703" },
+{ id:"6733805428", name:"นายดิชพล มณีวรรณ์", sec:"A6703" },
+{ id:"6733805436", name:"นางสาวทิพย์ธัญญา ทองเงิน", sec:"A6703" },
+{ id:"6733805444", name:"นายธนภัทร ประสานพันธ์", sec:"A6703" },
+{ id:"6733805452", name:"นายธนวิชญ์ ธนูสา", sec:"A6703" },
+{ id:"6733805460", name:"นางสาวธัญญารัตน์ ลงเย", sec:"A6703" },
+{ id:"6733805478", name:"นายนันทสิทธิ์ ศรีลับแล", sec:"A6703" },
+{ id:"6733805486", name:"นายปริณ ปริบุญณะ", sec:"A6703" },
+{ id:"6733805494", name:"นายปองพล หอระตะ", sec:"A6703" },
+{ id:"6733805509", name:"นายปัณณพัฒน์ อนุชน", sec:"A6703" },
+{ id:"6733805517", name:"นางสาวปาลีรัตน์ สถิตพลธนานันท์", sec:"A6703" },
+{ id:"6733805525", name:"นายพร้อมพงศ์ ศรีสวาสดิ์", sec:"A6703" },
+{ id:"6733805533", name:"นายพลวรรธน์ ลีบุญพงศ์", sec:"A6703" },
+{ id:"6733805541", name:"นางสาวพลอยไพริน จันทะคุณ", sec:"A6703" },
+{ id:"6733805559", name:"นางสาวพิมพ์พิศา สุขสโมสร", sec:"A6703" },
+{ id:"6733805567", name:"นางสาวพิมพ์มาดา เวชวงศ์", sec:"A6703" },
+{ id:"6733805575", name:"นายพีรพัฒน์ ชาญณรงค์", sec:"A6703" },
+{ id:"6733805583", name:"นายพูนทณัฐ ไชยจักร", sec:"A6703" },
+{ id:"6733805591", name:"นายภัทรพล หอมดี", sec:"A6703" },
+{ id:"6733805606", name:"นายภูมิพัฒน์ วรรณชัย", sec:"A6703" },
+{ id:"6733805614", name:"นายภูมิรพี เลิศศิวาพร", sec:"A6703" },
+{ id:"6733805622", name:"นายวัฒนะ สง่าภิญโญ", sec:"A6703" },
+{ id:"6733805630", name:"นายวิชชากร ศิริมโนพิเชษฐ์", sec:"A6703" },
+{ id:"6733805648", name:"นางสาววิมาลา สาราช", sec:"A6703" },
+{ id:"6733805656", name:"นายสกลเกียรติ จันทร์วงษา", sec:"A6703" },
+{ id:"6733805664", name:"นายสิทธิชัย ไพโรจน์", sec:"A6703" },
+{ id:"6733805672", name:"นายสุรเชษฐ พลวี", sec:"A6703" },
+{ id:"6733805680", name:"นางสาวอทิติยา โพธิ์ศรี", sec:"A6703" },
+{ id:"6733805698", name:"นางสาวเจนจิรา พรมกุล", sec:"A6703" },
+{ id:"6733805703", name:"นายเสฎฐวุฒิ บุญสถาพร", sec:"A6703" },
+{ id:"6733806181", name:"นางสาวสริษา เวธิตะ", sec:"A6703" }
 ],
+students:[],
 loaded:false,
 
 qrRoom:"",
 qrDate:"",
 qrSubject:"",
-qrLink:""
+qrLink:"",
+
+weeks:[
+"2026-01-29",
+"2026-02-05",
+"2026-02-12",
+"2026-02-19",
+"2026-02-26",
+"2026-03-05",
+"2026-03-12",
+"2026-03-19",
+"2026-03-26",
+"2026-04-02"
+]
 
 }
-
 },
+
 mounted(){
 
 if(window.location.pathname=="/checkin"){
@@ -442,52 +462,38 @@ this.isCheckin=true
 
 },
 
-
 computed:{
-
 
 presentPercent(){
 
 if(this.students.length==0) return 0
-
 let p=this.students.filter(s=>s.status=="On Time").length
-
 return Math.round((p/this.students.length)*100)
 
 },
 
-
 latePercent(){return 0},
 excusedPercent(){return 0},
-
 
 absentPercent(){
 
 if(this.students.length==0) return 0
-
 let a=this.students.filter(s=>s.status=="Absent").length
-
 return Math.round((a/this.students.length)*100)
 
 }
 
 },
 
-
-
 methods:{
-
 
 formatNumber(num){
 return num.toString().padStart(2,"0")
 },
 
-
 timeToMinutes(h,m){
 return parseInt(h)*60+parseInt(m)
 },
-
-
 
 async loadData(){
 
@@ -501,28 +507,27 @@ alert("เลือกวันที่")
 return
 }
 
-
 const end=this.timeToMinutes(this.endHour,this.endMinute)
 
 this.students=[]
 this.loaded=false
 
-
 const subject="00422012"
-
-
 const path=`attendance/${this.selectedDate}/${subject}/${this.selectedRoom}`
 
-
 const snapshot=await get(dbRef(db,path))
-
 
 if(snapshot.exists()){
 
 const data=snapshot.val()
 
-
 for(let id in data){
+
+// หาในรายชื่อนักศึกษา
+const student=this.studentList.find(s=>s.id==id)
+
+// ถ้าไม่มีในระบบ ไม่แสดง
+if(!student) continue
 
 const t=data[id].time
 const p=t.split(":")
@@ -534,61 +539,46 @@ let status=""
 if(min<=end) status="On Time"
 else status="Absent"
 
-
 this.students.push({
-
 id:id,
+name:student.name,
+sec:student.sec,
 time:t.substring(0,5),
 status:status
-
 })
 
 }
 
 }
 
-
 this.loaded=true
 
 },
 
-
-
 statusClass(s){
-
 if(s=="On Time") return "present"
 if(s=="Absent") return "absent"
-
 },
-
-
 
 exportExcel(){
 
 const data=this.students.map(s=>({
-
 StudentID:s.id,
 Time:s.time,
 Status:s.status
-
 }))
 
-
 const ws=XLSX.utils.json_to_sheet(data)
-
 const wb=XLSX.utils.book_new()
 
 XLSX.utils.book_append_sheet(wb,ws,"Attendance")
 
 const buf=XLSX.write(wb,{bookType:"xlsx",type:"array"})
-
 const blob=new Blob([buf])
 
 saveAs(blob,`attendance_${this.selectedRoom}.xlsx`)
 
 },
-
-
 
 exportPDF(){
 
@@ -603,7 +593,149 @@ doc.save("attendance.pdf")
 
 },
 
+async exportSummaryExcel(){
 
+const subject="00422012"
+let weekData={}
+
+for(let date of this.weeks){
+
+const path=`attendance/${date}/${subject}`
+const snapshot=await get(dbRef(db,path))
+
+if(snapshot.exists()){
+weekData[date]=snapshot.val()
+}else{
+weekData[date]={}
+}
+
+}
+
+let result=[]
+
+for(let student of this.studentList){
+
+let row={
+StudentID:student.id,
+Name:student.name,
+Section:student.sec
+}
+
+let total=0
+let weekIndex=1
+
+for(let date of this.weeks){
+
+let present=false
+const rooms=weekData[date]
+
+for(let room in rooms){
+
+if(rooms[room][student.id]){
+present=true
+break
+}
+
+}
+
+row["W"+weekIndex]=present?"✔":"✖"
+
+if(present) total++
+weekIndex++
+
+}
+
+row["Total"]=total
+result.push(row)
+
+}
+
+const ws=XLSX.utils.json_to_sheet(result)
+const wb=XLSX.utils.book_new()
+
+XLSX.utils.book_append_sheet(wb,ws,"Summary")
+
+const buf=XLSX.write(wb,{bookType:"xlsx",type:"array"})
+const blob=new Blob([buf])
+
+saveAs(blob,"attendance_summary.xlsx")
+
+},
+
+async exportSummaryPDF(){
+
+const subject="00422012"
+let weekData={}
+
+for(let date of this.weeks){
+
+const path=`attendance/${date}/${subject}`
+const snapshot=await get(dbRef(db,path))
+
+if(snapshot.exists()){
+weekData[date]=snapshot.val()
+}else{
+weekData[date]={}
+}
+
+}
+
+let body=[]
+
+for(let student of this.studentList){
+
+let row=[
+student.id,
+student.name,
+student.sec
+]
+
+let total=0
+
+for(let date of this.weeks){
+
+let present=false
+const rooms=weekData[date]
+
+for(let room in rooms){
+
+if(rooms[room][student.id]){
+present=true
+break
+}
+
+}
+
+row.push(present?"✔":"✖")
+
+if(present) total++
+
+}
+
+row.push(total)
+body.push(row)
+
+}
+
+const doc=new jsPDF("landscape")
+
+let head=[["StudentID","Name","Section"]]
+
+for(let i=1;i<=this.weeks.length;i++){
+head[0].push("W"+i)
+}
+
+head[0].push("Total")
+
+autoTable(doc,{
+head:head,
+body:body,
+styles:{fontSize:8}
+})
+
+doc.save("attendance_fullterm.pdf")
+
+},
 
 generateQR(){
 
@@ -625,7 +757,6 @@ this.qrDate
 }
 
 }
-
 </script>
 
 
