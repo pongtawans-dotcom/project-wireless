@@ -1,3 +1,4 @@
+```vue
 <template>
 
 <div class="login">
@@ -22,7 +23,6 @@ Generate UUID
 
 </div>
 
-
 <div v-if="uuid" class="uuid-box">
 
 <p>UUID</p>
@@ -33,7 +33,6 @@ Generate UUID
 </button>
 
 </div>
-
 
 <div v-if="success" class="popup">
 
@@ -49,24 +48,22 @@ Generate UUID
 
 </template>
 
+
 <script>
 
-import { BluetoothLe } from '@capacitor-community/bluetooth-le'
-
+import { BleClient } from '@capacitor-community/bluetooth-le'
+import { Capacitor } from '@capacitor/core'
+console.log("Platform:", Capacitor.getPlatform())
 export default{
 
 data(){
-
 return{
-
 subject:"",
 room:"",
 student:"",
 uuid:"",
 success:false
-
 }
-
 },
 
 methods:{
@@ -97,16 +94,22 @@ id
 async startBLE(){
 
 if(!this.uuid){
-
 alert("ต้อง generate UUID ก่อน")
 return
-
 }
 
 try{
 
+// เริ่ม Bluetooth
 await BluetoothLe.initialize()
 
+// ขอ permission จาก Android
+await BluetoothLe.requestPermissions()
+
+// เปิด Bluetooth
+await BluetoothLe.enable()
+
+// เริ่ม broadcast UUID
 await BluetoothLe.startAdvertising({
 
 services:[this.uuid],
@@ -118,8 +121,8 @@ this.success=true
 
 }catch(err){
 
-alert("Bluetooth Error")
 console.log(err)
+alert("Bluetooth Error: "+JSON.stringify(err))
 
 }
 
@@ -127,9 +130,7 @@ console.log(err)
 
 
 goApp(){
-
 window.location.href="/"
-
 },
 
 
@@ -200,3 +201,4 @@ text-align:center;
 }
 
 </style>
+```
